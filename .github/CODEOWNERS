@@ -1,0 +1,15 @@
+# La administradora revisa y aprueba todo lo que entra a main.
+*                   @saorionline
+
+# Gobernanza: solo la administradora.
+/.github/           @saorionline
+/.claude/           @saorionline
+/rules/             @saorionline
+/memoria/           @saorionline
+/scripts/           @saorionline
+/agents/owners.json @saorionline
+/CLAUDE.md          @saorionline
+
+# Carpetas de agentes: la duena de la carpeta + la administradora.
+# Añadir una linea por colaborador al darle de alta, ej.:
+# /agents/agent-ana/  @usuario-de-ana @saorionline

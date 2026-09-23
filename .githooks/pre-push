@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+# Rechaza localmente cualquier push hacia main (GitHub tambien lo rechaza por el ruleset).
+# stdin: <ref-local> <sha-local> <ref-remota> <sha-remota>
+while read -r _ref_local _sha_local ref_remota _sha_remota; do
+  case "$ref_remota" in
+    refs/heads/main|refs/heads/master)
+      echo "BLOQUEADO: no se hace push a '${ref_remota#refs/heads/}'. Sube tu rama y abre un Pull Request." >&2
+      exit 1
+      ;;
+  esac
+done
+exit 0

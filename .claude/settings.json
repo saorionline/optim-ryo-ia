@@ -6,6 +6,8 @@
       "Read(./.env.production)",
       "Bash(rm -rf:*)",
       "Bash(git push --force:*)",
+      "Bash(git push origin main:*)",
+      "Bash(git push origin HEAD:main:*)",
       "Bash(git reset --hard:*)",
       "Bash(supabase db reset:*)"
     ],

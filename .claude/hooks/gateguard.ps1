@@ -50,10 +50,19 @@ if ($ti.command) {
         @{ p = '\bgit\s+push\b.*(--force|\s-f\b)';                    r = 'git push --force' },
         @{ p = '\bgit\s+reset\s+--hard\b';                            r = 'git reset --hard' },
         @{ p = '\brm\s+-[a-z]*(rf|fr)[a-z]*\b';                       r = 'rm -rf' },
-        @{ p = 'Remove-Item\b.*-Recurse';                             r = 'borrado recursivo' }
+        @{ p = 'Remove-Item\b.*-Recurse';                             r = 'borrado recursivo' },
+        @{ p = '\bgit\s+push\b.*\s(\S+:)?(refs/heads/)?(main|master)(\s|$)'; r = 'push directo a main (usa una rama y Pull Request, regla 05)' },
+        @{ p = '\bgit\b.*--no-verify\b';                              r = 'saltarse los hooks de git con --no-verify' },
+        @{ p = '\bgit\s+config\b.*core\.hooksPath\b(?!\s+\.githooks\b)'; r = 'desactivar los hooks del repositorio' }
     )
     foreach ($b in $blocked) {
         if ($c -match "(?i)$($b.p)") { Block $b.r }
+    }
+
+    # Commits solo en ramas de trabajo (regla 05).
+    if ($c -match '(?i)\bgit\s+commit\b') {
+        $rama = (git symbolic-ref --short HEAD 2>$null)
+        if ($rama -in @('main', 'master')) { Block "commit directo en '$rama' (crea antes una rama <tipo>/<nombre>-<tarea>, regla 05)" }
     }
 
     $needsApproval = @(

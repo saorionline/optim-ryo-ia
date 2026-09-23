@@ -19,6 +19,14 @@ Arnés inspirado en ECC (https://github.com/affaan-m/ecc): reglas siempre cargad
 @rules/02-seguridad-gateguard.md
 @rules/03-modelo-datos-divisas.md
 @rules/04-auditoria-memoria.md
+@rules/05-colaboracion-git.md
+
+## Colaboración (equipo remoto)
+
+- Flujo y reglas del equipo: `CONTRIBUTING.md`. Seguridad: `SECURITY.md`. Convivencia: `CODE_OF_CONDUCT.md`.
+- Agentes de cada colaborador: `agents/agent-<nombre>/` (ver `agents/README.md`); no confundir con `.claude/agents/`.
+- Validación local: `python scripts/validar_agentes.py estructura`.
+- Protección de `main` en GitHub: `.github/rulesets/proteccion-main.json`, aplicada con `scripts/configurar-github.sh`.
 
 ## Agentes disponibles (`.claude/agents/`)
 
@@ -44,5 +52,5 @@ Flujo recomendado: **planear → implementar → `auditor-cumplimiento` revisa �
 
 ## Documentos fuente
 
-- `GuiaOptimizacion..md` — guía de optimización de agentes (origen de estas reglas).
+- `GuiaOptimizacion.md` — guía de optimización de agentes (origen de estas reglas).
 - `H:\WarriorRain\Optimizacion-IA-Ryo\TablasDeDesarrollo..md` — definición de las 4 tablas núcleo.
