@@ -1,0 +1,7 @@
+# Parametros del agente. YAML plano: una clave por linea, sin anidacion.
+# Cambiar cualquier valor = subir prompt_version (los prompts se versionan como codigo).
+model: claude-sonnet-5
+prompt_version: 1.0.0
+temperature: 0
+seed: 42
+max_tokens: 4096

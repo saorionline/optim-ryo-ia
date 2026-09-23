@@ -1,0 +1,23 @@
+# Secretos
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Configuracion local de Claude (personal, no se comparte)
+.claude/settings.local.json
+
+# Entornos y cachés
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+
+# Sistema operativo / editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

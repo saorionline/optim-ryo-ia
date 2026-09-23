@@ -1,0 +1,31 @@
+name: Tarea
+description: Requerimiento para planificar antes de crear una rama.
+title: "[Tarea] "
+labels: ["tarea"]
+body:
+  - type: input
+    id: agente
+    attributes:
+      label: Agente / carpeta
+      description: Carpeta afectada, ej. agents/agent-ana/
+    validations:
+      required: true
+  - type: textarea
+    id: objetivo
+    attributes:
+      label: Objetivo
+      description: Qué debe lograrse y por qué.
+    validations:
+      required: true
+  - type: textarea
+    id: criterios
+    attributes:
+      label: Criterios de aceptación
+      description: Cómo sabremos que está terminado.
+    validations:
+      required: true
+  - type: input
+    id: rama
+    attributes:
+      label: Rama propuesta
+      placeholder: feature/ana-memoria-inicial

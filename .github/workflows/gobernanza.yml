@@ -1,0 +1,64 @@
+# Verificaciones obligatorias antes de fusionar a main.
+# Los nombres de los jobs son los "required status checks" de .github/rulesets/proteccion-main.json;
+# si se renombran aqui, hay que renombrarlos alla.
+name: gobernanza
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches-ignore: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gobernanza-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validar-agentes:
+    name: validar-agentes
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Estructura de agents/, esquemas y lockfiles
+        run: python scripts/validar_agentes.py estructura
+
+  nombre-rama:
+    name: nombre-rama
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Convencion <tipo>/<nombre>-<tarea>
+        env:
+          RAMA: ${{ github.head_ref }}
+        run: python scripts/validar_agentes.py rama "$RAMA"
+
+  aislamiento-pr:
+    name: aislamiento-pr
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Cada colaborador solo toca su carpeta de agents/
+        env:
+          AUTOR: ${{ github.event.pull_request.user.login }}
+          BASE: origin/${{ github.base_ref }}
+        # owners.json se lee desde main para que una PR no pueda auto-asignarse carpetas.
+        run: |
+          git show "$BASE:agents/owners.json" > agents/owners.json
+          python scripts/validar_agentes.py aislamiento "$AUTOR" "$BASE"

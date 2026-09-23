@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+# Bloquea commits en main y en ramas que no siguen la convencion.
+# Activar una vez por clon: git config core.hooksPath .githooks
+rama="$(git symbolic-ref --short HEAD 2>/dev/null)" || exit 0
+
+if [ "$rama" = "main" ] || [ "$rama" = "master" ]; then
+  echo "BLOQUEADO: no se hace commit directo en '$rama'." >&2
+  echo "  git checkout -b feature/<nombre>-<tarea>" >&2
+  exit 1
+fi
+
+if ! echo "$rama" | grep -Eq '^(feature|fix|docs|chore|refactor|test)/[a-z0-9]+(-[a-z0-9]+)+$'; then
+  echo "BLOQUEADO: la rama '$rama' no sigue <tipo>/<nombre>-<tarea> (ej. feature/ana-memoria-inicial)." >&2
+  echo "  Renombrar: git branch -m feature/<nombre>-<tarea>" >&2
+  exit 1
+fi
+
+for py in python3 python py; do
+  if "$py" --version >/dev/null 2>&1; then
+    exec "$py" scripts/validar_agentes.py estructura
+  fi
+done
+echo "AVISO: Python no encontrado; la validacion de agents/ se hara en la CI." >&2
+exit 0

@@ -1,0 +1,5 @@
+# Finales de linea deterministas en todas las maquinas.
+* text=auto eol=lf
+*.ps1 text eol=crlf
+.githooks/* text eol=lf
+*.sh text eol=lf
